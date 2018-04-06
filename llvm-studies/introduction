@@ -1,0 +1,65 @@
+http://www.aosabook.org/en/llvm.html
+
+here is a simple example of a .ll file:
+
+define i32 @add1(i32 %a, i32 %b) {
+entry:
+%tmp1 = add i32 %a, %b
+ret i32 %tmp1
+}
+
+define i32 @add2(i32 %a, i32 %b) {
+entry:
+%tmp1 = icmp eq i32 %a, 0
+br i1 %tmp1, label %done, label %recurse
+
+recurse:
+%tmp2 = sub i32 %a, 1
+%tmp3 = add i32 %b, 1
+%tmp4 = call i32 @add2(i32 %tmp2, i32 %tmp3)
+ret i32 %tmp4
+
+done:
+ret i32 %b
+}
+
+This LLVM IR corresponds to this C code, which provides two different ways to add integers:
+
+unsigned add1(unsigned a, unsigned b) {
+return a+b;
+}
+
+// Perhaps not the most efficient way to add two numbers.
+unsigned add2(unsigned a, unsigned b) {
+if (a == 0) return b;
+return add2(a-1, b+1);
+}
+
+
+
+LLVM IR is a low-level RISC-like virtual instruction set. Like a real RISC instruction set
+Similarity to assemblies
+1. it supports linear sequences of simple instructions like add, subtract, compare, and branch
+2. These instructions are in three address form
+3. supports labels
+and generally looks like a weird form of assembly language.
+
+Differences compared to assemblies
+1. Unlike most RISC instruction sets, LLVM is strongly typed with a simple type system (e.g., i32 is a 32-bit integer, i32** is a pointer to pointer to 32-bit integer)
+2. some details of the machine are abstracted away.
+or example, the calling convention is abstracted through call and ret instructions and explicit arguments
+3. IR doesn't use a fixed set of named registers, it uses an infinite set of temporaries named with a % character.
+
+
+ LLVM IR is actually defined in three isomorphic forms
+1. Textual (.ll) (llvm-as -> .bc)
+2. in-memory data structure 
+3. efficient and dense on-disk binary "bitcode" (.bc) (llvm-dis -> .ll)
+
+
+
+most optimizations follow a simple three-part structure:
+Look for a pattern to be transformed.
+Verify that the transformation is safe/correct for the matched instance.
+Do the transformation, updating the code.
+

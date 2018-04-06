@@ -1,0 +1,23 @@
+2. Next, compile the C file into a native executable:
+
+% clang hello.c -o hello
+
+3. Next, compile the C file into an LLVM bitcode file:
+
+% clang -O3 -emit-llvm hello.c -c -o hello.bc
+
+4.Run the program in both forms. To run the program, use:
+% ./hello
+% lli hello.bc
+
+5. Use the llvm-dis utility to take a look at the LLVM assembly code:
+% llvm-dis < hello.bc | less
+
+6.Compile the program to native assembly using the LLC code generator:
+% llc hello.bc -o hello.s
+
+7.Assemble the native assembly language file into a program
+% gcc hello.s -o hello.native                              # On others
+
+8.Execute the native code program:
+% ./hello.native
