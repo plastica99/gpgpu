@@ -1,0 +1,58 @@
+[.c >> .o]
+[.ll >> .o]
+% clang hello.c -o hello
+
+[.c >> .bc]
+% clang -O3 -emit-llvm hello.c -c -o hello.bc
+
+[run .bc] (just-in-time compiling?)
+% ./hello
+% lli hello.bc
+
+[.ll >> .bc]
+% llvm-as < hello.ll
+
+[.bc >> .ll] (llvm disassemble)
+% llvm-dis < hello.bc | less
+
+[.bc >> .s]
+% llc hello.bc -o hello.s
+
+[.s >> .o] (gcc static compiling)
+% gcc hello.s -o hello.native
+
+.c >> .ll?
+.bc >> .o?
+
+llvm-as 	- LLVM assembler
+llvm-dis 	- LLVM disassembler
+opt 		- LLVM optimizer
+llc 		- LLVM static compiler
+lli 		- directly execute programs from LLVM bitcode
+llvm-link 	- LLVM bitcode linker
+llvm-ar 	- LLVM archiver
+llvm-lib 	- LLVM lib.exe compatible library tool
+llvm-nm		- list LLVM bitcode and object file’s symbol table
+llvm-config 	- Print LLVM compilation options
+llvm-diff 	- LLVM structural ‘diff’
+llvm-cov	- emit coverage information
+llvm-profdata 	- Profile data tool
+llvm-stress 	- generate random .ll files
+llvm-symbolizer - convert addresses into source code locations
+llvm-dwarfdump 	- dump and verify DWARF debug information
+dsymutil 	- manipulate archived DWARF debug symbol files
+llvm-mca 	- LLVM Machine Code Analyzer
+
+* Debugging
+bugpoint - automatic test case reduction tool
+llvm-extract - extract a function from an LLVM module
+llvm-bcanalyzer - LLVM bitcode analyzer
+
+* Developer tools
+FileCheck - Flexible pattern matching file verifier
+tblgen - Target Description To C++ Code Generator
+lit - LLVM Integrated Tester
+llvm-build - LLVM Project Build Utility
+llvm-exegesis - LLVM Machine Instruction Benchmark
+llvm-pdbutil - PDB File forensics and diagnostics
+llvm-readobj - LLVM Object Reader
