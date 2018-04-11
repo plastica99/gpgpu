@@ -1,0 +1,8 @@
+git init
+git add -A
+git commit -m 'Fix bad repo'
+git push
+
+Or the last command, you might need to set the branch.
+
+git push --all origin master
